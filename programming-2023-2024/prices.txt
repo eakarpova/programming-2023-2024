@@ -1,0 +1,22 @@
+#include <vector>
+#include <algorithm>
+
+int maxProfit(std::vector<int>& prices) {
+    int n = prices.size();
+    if (n <= 1) {
+        return 0;
+    }
+    int maxProfit = 0;
+    for (int i = 1; i < n; i++) {
+        int firstProfit = 0;
+        for (int j = 0; j < i; j++) {
+            firstProfit = std::max(firstProfit, prices[i] - prices[j]);
+        }
+        int secondProfit = 0;
+        for (int j = i + 1; j < n; j++) {
+            secondProfit = std::max(secondProfit, prices[j] - prices[i]);
+        }
+        maxProfit = std::max(maxProfit, firstProfit + secondProfit);
+    }
+    return maxProfit;
+}

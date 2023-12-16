@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+int max_rectangle(const std::vector<std::vector<char>>& matrix) {
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+
+    // ќпределение длины максимального пр€моугольника в каждой строке и столбце
+    std::vector<int> row_max(rows, 0);
+    std::vector<int> col_max(cols, 0);
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (matrix[i][j] == '1') {
+                row_max[i] = std::max(row_max[i], j); // изменено i на j
+                col_max[j] = std::max(col_max[j], i); // изменено j на i
+            }
+        }
+    }
+
+    // Ќайти максимальное значение в каждом столбце и строке
+    int max_area = 0;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            int area = (row_max[i] - i) * (col_max[j] - j);
+            max_area = std::max(max_area, area);
+        }
+    }
+
+    return max_area;
+}
+
+int main() {
+    std::vector<std::vector<char>> matrix = {
+        {'1', '0', '1', '0', '0'}, // изменены двойные кавычки на одинарные
+        {'1', '0', '1', '1', '1'}, // изменены двойные кавычки на одинарные
+        {'1', '1', '1', '1', '1'}, // изменены двойные кавычки на одинарные
+        {'1', '0', '0', '1', '0'}  // изменены двойные кавычки на одинарные
+    };
+
+    std::cout << "Maximum area of a rectangle: " << max_rectangle(matrix) << std::endl;
+
+    return 0;
+}
